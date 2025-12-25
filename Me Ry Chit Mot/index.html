@@ -86,12 +86,13 @@
         // ==========================================
         // 1. RESOURCES CONFIG Vandiep
         // ==========================================
+        const PHOTO_COUNT = 5; // Change this number to add/remove photos
         const MUSIC_URL = "./audio.mp3";
         let bgMusic = new Audio(MUSIC_URL);
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
         const loader = new THREE.TextureLoader();
-        const photoFiles = ['./image1.jpeg', './image2.jpeg', './image3.jpeg', './image4.jpeg', './image5.jpeg'];
+        const photoFiles = Array.from({length: PHOTO_COUNT}, (_, i) => `./image${i+1}.jpeg`);
         const photoTextures = [];
         photoFiles.forEach((f, i) => photoTextures[i] = loader.load(f));
 
@@ -270,7 +271,7 @@
             const borderGeo = new THREE.PlaneGeometry(9, 9); 
             const borderMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 }); 
 
-            for(let i=0; i<5; i++) {
+            for(let i=0; i<PHOTO_COUNT; i++) {
                 const mat = new THREE.MeshBasicMaterial({ map: photoTextures[i], side: THREE.DoubleSide });
                 const mesh = new THREE.Mesh(geo, mat);
                 const border = new THREE.Mesh(borderGeo, borderMat);
@@ -438,7 +439,7 @@
             } else if (state === 'EXPLODE') {
                 titleMesh.visible = false; starMesh.visible = false; loveMesh.visible = false;
                 const baseAngle = groupGold.rotation.y; 
-                const angleStep = (Math.PI * 2) / 5;
+                const angleStep = (Math.PI * 2) / PHOTO_COUNT;
                 let bestIdx = 0; let maxZ = -999;
                 photoMeshes.forEach((mesh, i) => {
                     mesh.visible = true;
